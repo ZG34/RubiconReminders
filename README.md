@@ -15,3 +15,4 @@ Made using tkinter.
 * Either download the pre-packaged exe [here](https://github.com/ZG34/RubiconReminders/releases),
 * Or package yourself using pyinstaller main.py -w , [source code on github](https://github.com/ZG34/RubiconReminders),
 * Or run main.py file.
+* May also run the CLI by running the rubicon_reminders_cli file. Note that these programs do not share notes between eachother.
