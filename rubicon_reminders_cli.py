@@ -1,14 +1,14 @@
-# to RUN APP IN CMD PROMPT: cd to StratNotes directory, or place strat_notes in default CMD directory:
-# then run 'python strat_notes_terminalvers.py'
+# the comments in this file were made while learning, as reminders
+
+# to RUN APP IN CMD PROMPT: cd to this directory, or place in default CMD directory:
+# then run 'python rubicon_reminders_cli.py'
 
 from os import listdir
 from datetime import datetime
 
 # this assigns dt variable as date + timestamp
 dt = (datetime.now())
-# establishing 0 as start for the numeration of each noted item per session
-# n = 1
-# n += 1            # TODO numerate note items per entry
+# TODO numerate note items per entry
 
 
 # open existing or create a new file prompt:
