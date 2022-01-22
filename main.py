@@ -130,8 +130,8 @@ def main_gui():
     save_confirm.pack(side='bottom')
 
     # text area to display selected note from listbox
-    text_output = Text(window)
-    text_output.pack(side="right", fill="y")
+    text_output = Text(window, wrap="word")
+    text_output.pack(side="right", fill="y",)
     text_output.config(width=29)
 
     # scrollbar, tied to text_output

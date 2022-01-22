@@ -1,5 +1,8 @@
 # Changelog
 
+### 1/21/22
+* Added - text wrap on word in text output area.
+
 ### v0.2 - 1/20/22
 * Added - [View Note Folder] menu item
 * Added - [Help] menu item, which display keybinds and app functionality.

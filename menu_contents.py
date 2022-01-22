@@ -14,8 +14,8 @@ def help_screen():
     functionality = Label(window, text="\n ---USER TIPS--- \n \n"
                                        " Add a new note by entering it above \n "
                                        "the 'add new note' button,\n then click button. \n \n"
-                                       " If note edits are not SAVED \n before clicking a different note \n from"
-                                       " the list, text will be lost.")
+                                       " Edits must be saved before \n clicking a different note from"
+                                       " the list.\n Otherwise, text will be lost.")
     functionality.pack(pady=10)
 
     window.mainloop()
