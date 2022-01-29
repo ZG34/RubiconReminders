@@ -1,21 +1,24 @@
 # tkinter GUI functions
 from tkinter import Tk, Text, Button, Listbox, END, Entry, Scrollbar, Menu, Label
+
 # os imports for creating note directory, adding and removing text files, and changing working dir to note dir
 from os import getcwd, path, listdir, chdir, remove, makedirs
+
 # datetime used to display save function has run at time clicked
 from datetime import datetime
 
 # project module holding menu bar functions
 import menu_contents
 
-
 # generates note directory
+import todo_tab
+
+
 def directory_generator():
     current_directory = getcwd()
-    final_directory = path.join(current_directory, r'note_folder')
+    final_directory = path.join(current_directory, r"note_folder")
     if not path.exists(final_directory):
         makedirs(final_directory)
-        print("directory created")
 
 
 directory_generator()
@@ -39,25 +42,27 @@ def main_gui():
     def go_home():
         window.destroy()
         main_gui()
-        print("refreshed window")
 
     # main listbox interface
     lbox = Listbox(window)
-    lbox.place(x=10, y=10)
+    lbox.place(x=10, y=40)
 
     # populates listbox with note file names
     for file in listdir():
-        lbox.insert(END, file)
+        if file.endswith('.txt'):
+            lbox.insert(END, file)
 
     # entry box for adding a new note
     add_note_entry = Entry(window)
     add_note_entry.place(x=15, y=268)
     add_note_entry.config(width=17)
-    add_note_label = Label(window, text="Enter New Note Title:", bg="#000000", fg="#FFFFFF")
+    add_note_label = Label(
+        window, text="Enter New Note Title:", bg="#000000", fg="#FFFFFF"
+    )
     add_note_label.place(x=12, y=245)
 
     # function to add a named note to the listbox population
-    def add_note():
+    def add_note(event):
         title = add_note_entry.get()
         hdl = open(title + ".txt", "w")
         hdl.close(), go_home()
@@ -68,16 +73,16 @@ def main_gui():
         file = lbox.get(lbox_selection)
         global working_note
         working_note = file
-        with open(file, 'r+') as file:
+        with open(file, "r+") as file:
             file = file.read()
-        text_output.delete('1.0', END)
+        text_output.delete("1.0", END)
         text_output.insert(END, file)
 
     # function for writing additional text to opened file
-    def save_note_cmd():
+    def save_note_cmd(event):
         file = working_note
-        hdl = open(file, 'w')
-        note = text_output.get('1.0', 'end')
+        hdl = open(file, "w")
+        note = text_output.get("1.0", "end")
         for line in note:
             hdl.write(line)
         hdl.close()
@@ -85,71 +90,84 @@ def main_gui():
         dt = datetime.now()
         save_confirm.delete("1.0", "end")
         save_confirm.insert("1.0", "Note saved: " + str(dt))
-        print("note saved")
-
-    # separate function for save via hotkey, triggered by event
-    def save_note_hotkey(event):
-        file = working_note
-        hdl = open(file, 'w')
-        note = text_output.get('1.0', 'end')
-        for line in note:
-            hdl.write(line)
-        hdl.close()
-        # displays note-save functionality is working correctly
-        dt = datetime.now()
-        save_confirm.delete("1.0", "end")
-        save_confirm.insert("1.0", "Note saved: " + str(dt))
-        print("note saved")
 
     # function for deleting a selected note from listbox and directory
-    def del_note():
+    def del_note(event):
         lbox_selection = lbox.curselection()[0]
         file = lbox.get(lbox_selection)
         remove(file)
         go_home()
 
     # GUI buttons
+    # Buttons which share functions bound with keybind events must be called with lambda
     def buttons():
-        add_note_button = Button(window, command=add_note)
+        add_note_button = Button(window, command=lambda: add_note(add_note_entry))
         add_note_button.place(x=15, y=290)
         add_note_button.config(width=14, height=1, text="ADD NEW NOTE", relief="raised")
 
-        del_note_button = Button(window, command=del_note)
-        del_note_button.place(x=8, y=180)
-        del_note_button.config(width=17, height=1, text="DELETE SELECTED NOTE", relief="raised")
+        del_note_button = Button(window, command=lambda: del_note(lbox))
+        del_note_button.place(x=8, y=210)
+        del_note_button.config(
+            width=17, height=1, text="DELETE SELECTED NOTE", relief="raised"
+        )
 
-        save_note_button = Button(window, command=save_note_cmd)
-        save_note_button.pack(side="bottom", fill='x')
-        save_note_button.config(height=1, text="--- SAVE NOTE ---", bg="#8E001C", font=("RobotoRoman", 11, "bold"),
-                                relief="groove", fg="#FFB302")
+        save_note_button = Button(window, command=lambda: save_note_cmd(text_output))
+        save_note_button.pack(side="bottom", fill="x")
+        save_note_button.config(
+            height=1,
+            text="SAVE NOTE",
+            bg="#8E001C",
+            font=("RobotoRoman", 11, "bold"),
+            relief="groove",
+            fg="#FFB302",
+        )
+
+        todo_button = Button(text="OPEN TODO", command=todo_tab.run)
+        todo_button.config(width=18, bg="#FFB302", height=1, font=("RobotRoman", 11, "bold"))
+        todo_button.pack(side="top", fill="x")
 
     buttons()
 
+
     # text area to display confirm message when save is successful.
     save_confirm = Text(window, height=1, width=50)
-    save_confirm.pack(side='bottom')
+    save_confirm.pack(side="bottom")
 
     # text area to display selected note from listbox
     text_output = Text(window, wrap="word")
-    text_output.pack(side="right", fill="y",)
+    text_output.pack(
+        side="right",
+        fill="y",
+        pady=4
+    )
     text_output.config(width=29)
 
     # scrollbar, tied to text_output
     text_scroll = Scrollbar(window, command=text_output.yview)
-    text_scroll.pack(side="right", fill="y")
-    text_output['yscrollcommand'] = text_scroll.set
+    text_scroll.pack(side="right", fill="y", pady=4)
+    text_output["yscrollcommand"] = text_scroll.set
 
     # binds selected listbox item to be opened on selection, into text_output
     lbox.bind("<<ListboxSelect>>", open_note)
 
     # binds ctrl-s as hotkey to save text_output back to file
-    text_output.bind("<Control-s>", save_note_hotkey)
+    text_output.bind("<Control-s>", save_note_cmd)
+
+    # binds Enter key to add note once note title is typed in entry area.
+    add_note_entry.bind("<Return>", add_note)
+
+    # binds 'del' key to delete text file in lbox (selection area)
+    lbox.bind('<Delete>', del_note)
 
     # menu bar
     menu_bar = Menu(window)
     menu_bar.add_command(label="Help", command=menu_contents.help_screen)
-    menu_bar.add_command(label="View Note Folder", command=menu_contents.view_note_folder)
+    menu_bar.add_command(
+        label="View Note Folder", command=menu_contents.view_note_folder
+    )
     window.config(menu=menu_bar)
+
+
 
     window.resizable(False, False)
     window.mainloop()

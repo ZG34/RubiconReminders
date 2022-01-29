@@ -4,18 +4,27 @@ from os import startfile, path, getcwd, chdir
 
 def help_screen():
     window = Tk()
-    window.geometry("200x400")
+    window.geometry("250x422")
     window.title("Help")
 
-    bindings = Label(window, text="---KEYBINDINGS--- \n \n"
-                                  "[Ctrl-s] = Save Note")
+    bindings = Label(window, text="---Note Bindings--- \n \n"
+                                  "[Ctrl-s] = Save Note \n"
+                                  "[Del] = Delete selected note file \n"
+                                  "[Enter] = Add New Note w/ Entered Title \n \n "
+                                  "---TODO Bindings--- \n \n"
+                                  "[Ctrl-s] = Save Lists \n"
+                                  "[Del] = Delete selected archived todo \n"
+                                  "[Tab] = Add new todo \n"
+                                  "[Tab] = Move todo between active/archive ")
     bindings.pack(pady=10)
 
     functionality = Label(window, text="\n ---USER TIPS--- \n \n"
-                                       " Add a new note by entering it above \n "
-                                       "the 'add new note' button,\n then click button. \n \n"
-                                       " Edits must be saved before \n clicking a different note from"
-                                       " the list.\n Otherwise, text will be lost.")
+                                       " Add an entry by entering it above \n "
+                                       "the 'add new' button,\n then click button or hotkey. \n \n"
+                                       " Note Edits must be saved \n [Save Button, or Ctrl-S] \n before clicking a "
+                                       "different "
+                                       "note from the list.\n Otherwise, text will be lost. \n \n"
+                                       "")
     functionality.pack(pady=10)
 
     window.mainloop()

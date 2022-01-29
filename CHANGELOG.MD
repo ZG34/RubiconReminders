@@ -1,4 +1,14 @@
 # Changelog
+### v0.3 - 1/28/22
+* Added - TODO functionality, accessible via the note interface button 'Open TODO.'
+* Added - hotkey functions for most major actions in both note and todo interfaces.
+* Updated - Help menu
+
+
+### v0.21 - 1/22/22
+* Added - text wrapping on word in text area.
+* Minor wording change on help menu.
+
 
 ### 1/21/22
 * Added - text wrap on word in text output area.
